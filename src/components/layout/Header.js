@@ -27,8 +27,6 @@ export default function Header() {
     const [searchProduct, setSearchProduct] = useState(false);
     const location = useLocation();
 
-    console.log(location, "locationlocationlocationlocation");
-
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen)
     }
@@ -48,7 +46,7 @@ export default function Header() {
         },
         {
             name: 'Discover',
-            href: '#',
+            href: '/discover',
         },
         {
             name: 'About Us',
@@ -63,11 +61,11 @@ export default function Header() {
     const mobileMenuItems = [
         {
             name: 'Home',
-            href: '#',
+            href: '/',
         },
         {
             name: 'Discover',
-            href: '#',
+            href: '/discover',
         },
         {
             name: 'My Favorites',

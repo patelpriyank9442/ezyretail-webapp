@@ -144,7 +144,7 @@ export default function Register({ registerModal, setRegisterModal, setLoginModa
                             onClick={() => { setLoginModal(true); setRegisterModal(false) }}
                         >
                             Already have a account
-                            <img src={chevronRight} className='h-auto w-auto' alt='favouritr' />
+                            <img src={chevronRight} className='h-auto w-auto' alt='favourit' />
                         </button>
                     </div>
                 </div>
