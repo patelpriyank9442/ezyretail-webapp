@@ -109,7 +109,7 @@ const FilterSection = ({ title, items }) => (
         <h2 className='text-gray-300 font-semibold text-[19px] leading-[23px]'>{title}</h2>
         {items.map(item => (
             <div key={item.key} className='flex gap-2 items-center'>
-                <input type='checkbox' className='custom-checkbox-label rounded-[5px] h-[17px] w-[17px] border-[1.5px] border-gray-300' />
+                <input type='checkbox' className='rounded-[5px] h-[17px] w-[17px] border-[1.5px] border-gray-300' />
                 <p className='font-normal text-base leading-[20px] tracking-[0.02em]'>{item.label}</p>
             </div>
         ))}
@@ -118,7 +118,7 @@ const FilterSection = ({ title, items }) => (
 
 const FilterContent = ({ value, setValue }) => (
     <div className='space-y-5 lg:pb-0 pb-[100px]'>
-        <div className='flex items-center gap-[15px] lg:flex hidden'>
+        <div className='items-center gap-[15px] lg:flex hidden'>
             <div className='bg-gray-300 rounded-full flex items-center justify-center w-[35px] h-[35px]'>
                 <img src={filterIcon} alt='Filters Icon' />
             </div>
@@ -267,11 +267,11 @@ export default function ProductFilter() {
                                             <div className='mt-[15px]'>
                                                 <div className='text-gray-200 list-inside list-disc uppercase font-medium lg:text-xl md:text-lg text-xs lg:leading-[25px] leading-[15px]'>
                                                     <Slider {...fashionSettings}>
-                                                        <div className='!flex justify-center justify-around'><span className='lg:w-2 lg:h-2 w-[5px] h-[5px] rounded-full text-gray-200 list-item'></span>find your style</div>
-                                                        <div className='!flex justify-center justify-around'><span className='w-2 h-2 rounded-full text-gray-200 list-item'></span>find your style</div>
-                                                        <div className='!flex justify-center justify-around'><span className='w-2 h-2 rounded-full text-gray-200 list-item'></span>find your style</div>
-                                                        <div className='!flex justify-center justify-around'><span className='w-2 h-2 rounded-full text-gray-200 list-item'></span>find your style</div>
-                                                        <div className='!flex justify-center justify-around'><span className='w-2 h-2 rounded-full text-gray-200 list-item'></span>find your style</div>
+                                                        <div className='!flex justify-around'><span className='lg:w-2 lg:h-2 w-[5px] h-[5px] rounded-full text-gray-200 list-item'></span>find your style</div>
+                                                        <div className='!flex justify-around'><span className='w-2 h-2 rounded-full text-gray-200 list-item'></span>find your style</div>
+                                                        <div className='!flex justify-around'><span className='w-2 h-2 rounded-full text-gray-200 list-item'></span>find your style</div>
+                                                        <div className='!flex justify-around'><span className='w-2 h-2 rounded-full text-gray-200 list-item'></span>find your style</div>
+                                                        <div className='!flex justify-around'><span className='w-2 h-2 rounded-full text-gray-200 list-item'></span>find your style</div>
                                                     </Slider>
                                                 </div>
                                             </div>
