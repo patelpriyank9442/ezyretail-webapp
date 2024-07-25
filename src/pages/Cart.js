@@ -83,8 +83,8 @@ export default function Cart() {
                         </div>
                     </div>
                     <div className="lg:mt-10 mt-5 mb-[52px]">
-                        <div className="grid lg:grid-cols-4 gap-[30px]">
-                            <div className="grid grid-cols-1 lg:col-span-1 col-span-3 relative">
+                        <div className="grid lg:grid-cols-6 gap-[30px]">
+                            <div className="grid grid-cols-1 lg:col-span-2 col-span-4 relative">
                                 <div className="bg-white rounded-[20px] lg:p-5 p-[15px] space-y-5">
                                     <div className="text-gray-300 font-semibold lg:text-[25px] text-xl lg:leading-[31px] leading-[26px] tracking-[0.01em]">Payout</div>
                                     <div className="space-y-[15px]">
@@ -128,7 +128,7 @@ export default function Cart() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="grid col-span-3 h-fit">
+                            <div className="grid col-span-4 h-fit">
                                 {products.map((product, index) => {
                                     const { minusDisabled, plusDisabled } = updateButtonStates(quantities[index]);
 

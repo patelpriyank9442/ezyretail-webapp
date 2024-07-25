@@ -7,6 +7,7 @@ import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import Payment from './pages/Payment';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route exact path="/my-cart" element={<Cart />} />
         <Route exact path="/checkout" element={<Checkout />} />
         <Route exact path="/payment" element={<Payment />} />
+        <Route exact path="/my-profile" element={<Profile />} />
       </Routes>
     </Router>
   );

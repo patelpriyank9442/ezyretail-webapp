@@ -5,6 +5,7 @@ import chevronLeft from '../../src/assets/images/chevronLeft.svg';
 import chevronRight from '../../src/assets/images/chevronRight.svg';
 import product from '../../src/assets/images/product.svg';
 import plusIcon from '../../src/assets/images/plusIcon.svg';
+import phoneIcon from '../../src/assets/images/phoneIcon.svg';
 import { Link } from "react-router-dom";
 
 const checkoutData = [
@@ -85,20 +86,20 @@ export default function Checkout() {
                             <h1 className="text-gray-300 font-[oswald] font-bold lg:text-[45px] text-[30px] lg:leading-[58px] leading-[39px] tracking-[0.01em] uppercase">checkout</h1>
                         </div>
                         <div className="lg:flex hidden">
-                        <Link to='/payment'>
-                            <button
-                                type="button"
-                                className="rounded-full h-fit w-full flex justify-center items-center gap-4 font-[oswald] uppercase bg-gray-300 sm:p-[18px] p-3 text-[22px] font-bold text-white border-[1.5px] border-gray-300 leading-[32px] tracking-[0.02em]"
-                            >
-                                proceed to pay
-                                <img src={chevronRight} className='h-auto w-auto invert' alt='favourite' />
-                            </button>
+                            <Link to='/payment'>
+                                <button
+                                    type="button"
+                                    className="rounded-full h-fit w-full flex justify-center items-center gap-4 font-[oswald] uppercase bg-gray-300 sm:p-[18px] p-3 text-[22px] font-bold text-white border-[1.5px] border-gray-300 leading-[32px] tracking-[0.02em]"
+                                >
+                                    proceed to pay
+                                    <img src={chevronRight} className='h-auto w-auto invert' alt='favourite' />
+                                </button>
                             </Link>
                         </div>
                     </div>
                     <div className="lg:mt-10 mt-5 mb-[52px]">
-                        <div className="grid lg:grid-cols-4 gap-[30px]">
-                            <div className="grid grid-cols-1 lg:col-span-1 col-span-3 relative">
+                        <div className="grid lg:grid-cols-6 gap-[30px]">
+                            <div className="grid grid-cols-1 lg:col-span-2 col-span-4 relative">
                                 <div className="bg-white rounded-[20px] lg:p-5 p-[15px] space-y-5 h-fit">
                                     <div className="text-gray-300 font-semibold lg:text-[25px] text-xl lg:leading-[31px] leading-[26px] tracking-[0.01em]">Order Details</div>
                                     <div className="space-y-5">
@@ -165,7 +166,7 @@ export default function Checkout() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="grid col-span-3 h-fit">
+                            <div className="grid col-span-4 h-fit">
                                 <div className="bg-white rounded-[20px] lg:p-[25px] p-[15px] mb-4 overflow-hidden">
                                     <div className="space-y-[25px]">
                                         <div className="flex items-center justify-between">
@@ -182,7 +183,10 @@ export default function Checkout() {
                                                     <div className="lg:space-y-2 space-y-1.5">
                                                         <h3 className="text-gray-300  font-medium lg:text-xl text-lg lg:leading-[25px] leading-[22px]">{address.name}</h3>
                                                         <p className="text-gray-200 font-normal lg:text-[17px] text-[15px] lg:leading-[21px] leading-[18px]">{address.address}</p>
-                                                        <div className="text-gray-200 font-normal lg:text-[17px] text-[15px] lg:leading-[21px] leading-[18px] flex items-center lg:gap-2.5 gap-2">{address.phone}</div>
+                                                        <div className="text-gray-200 font-normal lg:text-[17px] text-[15px] lg:leading-[21px] leading-[18px] flex items-center lg:gap-2.5 gap-2">
+                                                            <img src={phoneIcon} alt="img" />
+                                                            <p>{address.phone}</p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             ))}

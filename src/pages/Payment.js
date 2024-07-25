@@ -34,8 +34,8 @@ export default function Payment() {
                         <p className="text-gray-300 sm:w-[500px] w-auto font-normal md:text-xl text-[15px] md:leading-[25px] leading-[18px] mt-2.5">Please check your inbox as a confirmation email is on its way.</p>
                     </div>
                     <div className="lg:mt-10 mt-5 mb-[52px]">
-                        <div className="grid lg:grid-cols-4 gap-[30px]">
-                            <div className="grid grid-cols-1 lg:col-span-1 col-span-3 relative">
+                        <div className="grid lg:grid-cols-6 gap-[30px]">
+                            <div className="grid grid-cols-1 lg:col-span-2 col-span-4 relative">
                                 <div className="bg-white rounded-[20px] lg:p-5 p-[15px] space-y-5 h-fit">
                                     <div className="text-gray-300 font-semibold lg:text-[25px] text-xl lg:leading-[31px] leading-[26px] tracking-[0.01em]">Order Details</div>
                                     <div className="space-y-5">
@@ -102,7 +102,7 @@ export default function Payment() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="grid col-span-3 h-fit">
+                            <div className="grid col-span-4 h-fit">
                             </div>
                         </div>
                     </div>

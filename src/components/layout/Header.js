@@ -217,7 +217,7 @@ export default function Header() {
                                                             className={`flex items-center rounded-md px-[18px] py-3 text-sm font-semibold ${item.name === 'Log Out' ? 'text-alert-300 hover:text-white' : 'text-gray-300 hover:text-white'
                                                                 } hover:bg-gray-300 hover:rounded-[500px]`}
                                                         >
-                                                            <span className="text-[17px] leading-[21px] tracking-[1%] font-medium">
+                                                            <span className="text-[17px] leading-[21px] tracking-[0.01em] font-medium capitalize">
                                                                 {item.name}
                                                             </span>
                                                         </a>
