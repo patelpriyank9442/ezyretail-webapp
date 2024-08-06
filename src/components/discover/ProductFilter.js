@@ -268,10 +268,10 @@ export default function ProductFilter() {
                                                 <div className='text-gray-200 list-inside list-disc uppercase font-medium lg:text-xl md:text-lg text-xs lg:leading-[25px] leading-[15px]'>
                                                     <Slider {...fashionSettings}>
                                                         <div className='!flex justify-around'><span className='lg:w-2 lg:h-2 w-[5px] h-[5px] rounded-full text-gray-200 list-item'></span>find your style</div>
-                                                        <div className='!flex justify-around'><span className='w-2 h-2 rounded-full text-gray-200 list-item'></span>find your style</div>
-                                                        <div className='!flex justify-around'><span className='w-2 h-2 rounded-full text-gray-200 list-item'></span>find your style</div>
-                                                        <div className='!flex justify-around'><span className='w-2 h-2 rounded-full text-gray-200 list-item'></span>find your style</div>
-                                                        <div className='!flex justify-around'><span className='w-2 h-2 rounded-full text-gray-200 list-item'></span>find your style</div>
+                                                        <div className='!flex justify-around'><span className='lg:w-2 lg:h-2 w-[5px] h-[5px] rounded-full text-gray-200 list-item'></span>find your style</div>
+                                                        <div className='!flex justify-around'><span className='lg:w-2 lg:h-2 w-[5px] h-[5px] rounded-full text-gray-200 list-item'></span>find your style</div>
+                                                        <div className='!flex justify-around'><span className='lg:w-2 lg:h-2 w-[5px] h-[5px] rounded-full text-gray-200 list-item'></span>find your style</div>
+                                                        <div className='!flex justify-around'><span className='lg:w-2 lg:h-2 w-[5px] h-[5px] rounded-full text-gray-200 list-item'></span>find your style</div>
                                                     </Slider>
                                                 </div>
                                             </div>

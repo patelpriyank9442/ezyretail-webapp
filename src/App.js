@@ -8,6 +8,8 @@ import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import Payment from './pages/Payment';
 import Profile from './pages/Profile';
+import GuestCheckout from './pages/GuestCheckout';
+import ReturnOrder from './pages/ReturnOrder';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
         <Route exact path="/checkout" element={<Checkout />} />
         <Route exact path="/payment" element={<Payment />} />
         <Route exact path="/my-profile" element={<Profile />} />
+        <Route exact path="/guest-checkout" element={<GuestCheckout />} />
+        <Route exact path="/return-order" element={<ReturnOrder />} />
       </Routes>
     </Router>
   );

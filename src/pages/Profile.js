@@ -80,7 +80,7 @@ export default function Profile() {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="border border-gray-300 my-[19px]"></div>
+                                    <div className="border-b-[1.5px] border-gray-300 my-[19px]"></div>
                                     <div className="grid gap-y-[5px]">
                                         {profileTab.map((item) => (
                                             <button

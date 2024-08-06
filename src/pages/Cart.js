@@ -98,7 +98,7 @@ export default function Cart() {
                                                 </p>
                                             </div>
                                         ))}
-                                        <div className="border border-gray-300 my-[19px]"></div>
+                                        <div className="border-b-[1.5px] border-gray-300 my-[19px]"></div>
                                         <div className="flex justify-between items-center">
                                             <p className="text-gray-300 lg:text-lg font-semibold lg:leading-[22px] text-base leading-[20px]">Subtotal</p>
                                             <p className="font-[oswald] text-gray-300 lg:text-lg text-xl font-bold lg:leading-[26px] leading-[29px]">$1,12,000.00</p>

@@ -4,8 +4,6 @@ import Footer from "../components/layout/Footer";
 import chevronLeft from '../../src/assets/images/chevronLeft.svg';
 import chevronRight from '../../src/assets/images/chevronRight.svg';
 import product from '../../src/assets/images/product.svg';
-import plusIcon from '../../src/assets/images/plusIcon.svg';
-import phoneIcon from '../../src/assets/images/phoneIcon.svg';
 import { Link } from "react-router-dom";
 
 const checkoutData = [
@@ -53,17 +51,17 @@ const options = [
         id: 'dhlPremium',
         label: 'DHL Premium',
         description: 'Delivery within 2-3 days of dispatch.',
-        price: '$0.00'
+        price: '$20.00'
     },
     {
         id: 'express',
         label: 'Express Delivery',
         description: 'Same day delivery, location-dependent.',
-        price: '$0.00'
+        price: '$40.00'
     }
 ];
 
-export default function Checkout() {
+export default function GuestCheckout() {
     const [selectedOption, setSelectedOption] = useState('regular');
 
     const handleOptionChange = (e) => {
@@ -171,25 +169,123 @@ export default function Checkout() {
                                     <div className="space-y-[25px]">
                                         <div className="flex items-center justify-between">
                                             <div className="text-gray-300 font-semibold lg:text-[25px] text-xl lg:leading-[31px] leading-[26px] tracking-[0.01em]">Location Details</div>
-                                            <div className="flex gap-3 text-gray-300 font-medium lg:text-[18px] text-base lg:leading-[22px] leading-5 tracking-[0.02em] items-center">
-                                                <img src={plusIcon} alt="img" className="w-3.5 h-3.5" />
-                                                <p>Add new address</p>
-                                            </div>
+                                            <p className="text-gray-200 font-normal text-base leading-[20px] tracking-[0.02em]">Existing customer? <span className="text-gray-300 font-bold underline">Login</span></p>
                                         </div>
-                                        <div className="flex lg:gap-[15px] gap-2.5 overflow-x-scroll hide-scroll">
-                                            {addresses.map((address, index) => (
-                                                <div key={index} className="border-[1.5px] w-full xl:min-w-[250px] lg:min-w-[370px] min-w-[250px] border-gray-100 rounded-[15px] lg:p-[17px] p-[13px] space-y-2.5">
-                                                    <div className="text-white bg-gray-300 text-sm font-semibold leading-[16px] lg:px-3 px-2.5 py-[5px] rounded-[56px] w-fit">{address.title}</div>
-                                                    <div className="lg:space-y-2 space-y-1.5">
-                                                        <h3 className="text-gray-300  font-medium lg:text-xl text-lg lg:leading-[25px] leading-[22px]">{address.name}</h3>
-                                                        <p className="text-gray-200 font-normal lg:text-[17px] text-[15px] lg:leading-[21px] leading-[18px]">{address.address}</p>
-                                                        <div className="text-gray-200 font-normal lg:text-[17px] text-[15px] lg:leading-[21px] leading-[18px] flex items-center lg:gap-2.5 gap-2">
-                                                            <img src={phoneIcon} alt="img" />
-                                                            <p>{address.phone}</p>
-                                                        </div>
-                                                    </div>
+                                        <div className="space-y-[15px]">
+                                            <div className="grid md:grid-cols-2 grid-cols-1 gap-[15px]">
+                                                <div>
+                                                    <label className="text-base text-gray-300 font-medium leading-[20px] capitalize">
+                                                        First Name
+                                                    </label>
+                                                    <input
+                                                        className="flex w-full mt-2 rounded-[50px] border-[1.5px] leading-[20px] font-normal border-gray-100 bg-transparent p-[13px] text-base text-gray-300 placeholder:text-gray-200 focus:outline-none"
+                                                        type="text"
+                                                        placeholder="Enter full name"
+                                                        id="firstName"
+                                                    />
                                                 </div>
-                                            ))}
+                                                <div>
+                                                    <label className="text-base text-gray-300 font-medium leading-[20px] capitalize">
+                                                        Last Name
+                                                    </label>
+                                                    <input
+                                                        className="flex w-full mt-2 rounded-[50px] border-[1.5px] leading-[20px] font-normal border-gray-100 bg-transparent p-[13px] text-base text-gray-300 placeholder:text-gray-200 focus:outline-none"
+                                                        type="text"
+                                                        placeholder="Enter last name"
+                                                        id="lastName"
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label className="text-base text-gray-300 font-medium leading-[20px] capitalize">
+                                                        mobile number
+                                                    </label>
+                                                    <input
+                                                        className="flex w-full mt-2 rounded-[50px] border-[1.5px] leading-[20px] font-normal border-gray-100 bg-transparent p-[13px] text-base text-gray-300 placeholder:text-gray-200 focus:outline-none"
+                                                        type="number"
+                                                        placeholder="Enter mobile number"
+                                                        id="mobileNumber"
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label className="text-base text-gray-300 font-medium leading-[20px] capitalize">
+                                                        Email
+                                                    </label>
+                                                    <input
+                                                        className="flex w-full mt-2 rounded-[50px] border-[1.5px] leading-[20px] font-normal border-gray-100 bg-transparent p-[13px] text-base text-gray-300 placeholder:text-gray-200 focus:outline-none"
+                                                        type="email"
+                                                        placeholder="Enter email address"
+                                                        id="email"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="grid grid-cols-1 gap-[15px]">
+                                                <div>
+                                                    <label className="text-base text-gray-300 font-medium leading-[20px] capitalize">
+                                                        full address
+                                                    </label>
+                                                    <input
+                                                        className="flex w-full mt-2 rounded-[50px] border-[1.5px] leading-[20px] font-normal border-gray-100 bg-transparent p-[13px] text-base text-gray-300 placeholder:text-gray-200 focus:outline-none"
+                                                        type="text"
+                                                        placeholder="Enter full address"
+                                                        id="address"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="grid md:grid-cols-2 grid-cols-1 gap-[15px]">
+                                                <div>
+                                                    <label className="text-base text-gray-300 font-medium leading-[20px] capitalize">
+                                                        pin code/zip code
+                                                    </label>
+                                                    <input
+                                                        className="flex w-full mt-2 rounded-[50px] border-[1.5px] leading-[20px] font-normal border-gray-100 bg-transparent p-[13px] text-base text-gray-300 placeholder:text-gray-200 focus:outline-none"
+                                                        type="number"
+                                                        placeholder="Enter pin code/zip code"
+                                                        id="pincode"
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label className="text-base text-gray-300 font-medium leading-[20px] capitalize">
+                                                        city
+                                                    </label>
+                                                    <select
+                                                        className="flex w-full mt-2 rounded-[50px] border-[1.5px] leading-[20px] font-normal border-gray-100 bg-transparent p-[13px] text-base text-gray-300 focus:outline-none"
+                                                        id="city"
+                                                    >
+                                                        <option value="" className="text-gray-200">Select City</option>
+                                                        <option value="New York">New York</option>
+                                                        <option value="Los Angeles">Los Angeles</option>
+                                                        <option value="Chicago">Chicago</option>
+                                                    </select>
+                                                </div>
+                                                <div>
+                                                    <label className="text-base text-gray-300 font-medium leading-[20px] capitalize">
+                                                        state
+                                                    </label>
+                                                    <select
+                                                        className="flex w-full mt-2 rounded-[50px] border-[1.5px] leading-[20px] font-normal border-gray-100 bg-transparent p-[13px] text-base text-gray-300 focus:outline-none"
+                                                        id="state"
+                                                    >
+                                                        <option value="" className="text-gray-200">Select state</option>
+                                                        <option value="Gujarat">Gujarat</option>
+                                                        <option value="Bihar">Bihar</option>
+                                                        <option value="Haryana">Haryana</option>
+                                                    </select>
+                                                </div>
+                                                <div>
+                                                    <label className="text-base text-gray-300 font-medium leading-[20px] capitalize">
+                                                        country
+                                                    </label>
+                                                    <select
+                                                        className="flex w-full mt-2 rounded-[50px] border-[1.5px] leading-[20px] font-normal border-gray-100 bg-transparent p-[13px] text-base text-gray-300 focus:outline-none"
+                                                        id="country"
+                                                    >
+                                                        <option value="" className="text-gray-200">Select country</option>
+                                                        <option value="India">India</option>
+                                                        <option value="Australia">Australia</option>
+                                                        <option value="Germany">Germany</option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div className="border-b-[1.5px] border-gray-300 my-[19px]"></div>
                                         <div className="text-gray-300 font-semibold lg:text-[25px] text-xl lg:leading-[31px] leading-[26px] tracking-[0.01em]">Shipping Type</div>
