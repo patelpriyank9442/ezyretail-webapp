@@ -19,27 +19,6 @@ const pricingDetails = [
     { label: 'Shipping Charges', amount: '$0.00' }
 ];
 
-const addresses = [
-    {
-        title: 'Home',
-        name: 'Chintan Ribadiya',
-        address: 'Hirabaug, Varachha Road, Surat, Gujarat, India - 395009',
-        phone: '+91 95374 73458'
-    },
-    {
-        title: 'Office.1',
-        name: 'Chintan Ribadiya',
-        address: '4140 Parker Rd. Allentown, New Mexico 31134',
-        phone: '+91 95374 73458'
-    },
-    {
-        title: 'Office.2',
-        name: 'Chintan Ribadiya',
-        address: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
-        phone: '+91 95374 73458'
-    }
-];
-
 const options = [
     {
         id: 'regular',

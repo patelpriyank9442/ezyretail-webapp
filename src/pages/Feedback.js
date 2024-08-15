@@ -5,6 +5,8 @@ import Footer from "../components/layout/Footer";
 import product from '../../src/assets/images/product.svg';
 import uploadImage from '../../src/assets/images/uploadImage.svg';
 import closeIcon from '../../src/assets/images/closeIcon.svg';
+import star from '../../src/assets/images/star.svg';
+import grayStar from '../../src/assets/images/grayStar.svg';
 
 const checkoutData = [
     { id: 1, name: "Premium Blue Dress", size: "L", qty: "01", amount: "$55,800.00", imageSrc: product },
@@ -12,25 +14,13 @@ const checkoutData = [
 ];
 
 const pricingDetails = [
-    { label: 'Expected Delivery:', amount: '20/04/2024' },
+    { label: 'Expected Delivery:', amount: '$1,11,600.00' },
     { label: 'Delivery Address', amount: 'Hirabaug, Varachha Road, Surat, Gujarat, India - 395009' },
     { label: 'Order ID:', amount: '#45789552477' },
     { label: 'Tracking ID:', amount: '15894578962458' },
 ];
 
-const options = [
-    {
-        id: 'exchange',
-        label: 'Exchange Product',
-    },
-    {
-        id: 'return',
-        label: 'Return Product',
-    },
-];
-
-export default function ReturnOrder() {
-    const [selectedOption, setSelectedOption] = useState('exchange');
+export default function Feedback() {
     const [images, setImages] = useState([]);
 
     const handleImageUpload = (e) => {
@@ -41,10 +31,6 @@ export default function ReturnOrder() {
 
     const handleRemoveImage = (index) => {
         setImages(prevImages => prevImages.filter((_, i) => i !== index));
-    };
-
-    const handleOptionChange = (e) => {
-        setSelectedOption(e.target.value);
     };
 
     return (
@@ -59,7 +45,7 @@ export default function ReturnOrder() {
                         </div>
                     </div>
                     <div>
-                        <h1 className="text-gray-300 font-[oswald] font-bold lg:text-[45px] text-[30px] lg:leading-[58px] leading-[39px] tracking-[0.01em] uppercase">return or exchange order</h1>
+                        <h1 className="text-gray-300 font-[oswald] font-bold lg:text-[45px] text-[30px] lg:leading-[58px] leading-[39px] tracking-[0.01em] uppercase">give feedback</h1>
                     </div>
                     <div className="lg:mt-10 mt-5 mb-[52px]">
                         <div className="grid lg:grid-cols-6 gap-[30px]">
@@ -127,24 +113,16 @@ export default function ReturnOrder() {
                             </div>
                             <div className="grid col-span-4 h-auto">
                                 <div className="bg-white rounded-[20px] lg:p-5 p-[15px] space-y-[25px] h-fit">
-                                    <h3 className="text-gray-300 font-semibold lg:text-[25px] text-xl lg:leading-[31px] leading-[26px] capitalize">Location Details</h3>
+                                    <h3 className="text-gray-300 font-semibold lg:text-[25px] text-xl lg:leading-[31px] leading-[26px] capitalize">Share Your Experience</h3>
                                     <div className="space-y-5">
-                                        <div className="md:flex gap-[60px] md:space-y-0 space-y-3">
-                                            {options.map(option => (
-                                                <div key={option.id} className="text-base text-gray-300 font-normal text-start leading-[22px]">
-                                                    <label className="flex sm:items-center lg:gap-[14px] gap-2.5">
-                                                        <input
-                                                            type="radio"
-                                                            name="deliveryOption"
-                                                            value={option.id}
-                                                            checked={selectedOption === option.id}
-                                                            onChange={handleOptionChange}
-                                                            className="h-[19px] w-[19px]"
-                                                        />
-                                                        <p className="text-gray-300 font-medium text-[17px] leading-[21px]">{option.label}</p>
-                                                    </label>
-                                                </div>
-                                            ))}
+                                        <div className="flex gap-3">
+                                            <div className="flex gap-2">
+                                                <img src={star} alt="" className="w-8 h-8" />
+                                                <img src={star} alt="" className="w-8 h-8" />
+                                                <img src={star} alt="" className="w-8 h-8" />
+                                                <img src={star} alt="" className="w-8 h-8" />
+                                                <img src={grayStar} alt="" className="w-8 h-8" />
+                                            </div>
                                         </div>
                                         <div className="space-y-[15px]">
                                             <div>
@@ -177,19 +155,7 @@ export default function ReturnOrder() {
                                             </div>
                                             <div>
                                                 <label className="text-base text-gray-300 font-medium leading-[20px] capitalize">
-                                                    Return Reason
-                                                </label>
-                                                <select
-                                                    className="flex w-full mt-2 rounded-[50px] border-[1.5px] leading-[20px] font-normal border-gray-100 bg-transparent p-[13px] text-base text-gray-300 focus:outline-none"
-                                                    id="reason"
-                                                >
-                                                    <option value="" className="text-gray-200">Select</option>
-                                                    <option value="New York">Reason</option>
-                                                </select>
-                                            </div>
-                                            <div>
-                                                <label className="text-base text-gray-300 font-medium leading-[20px] capitalize">
-                                                    Description
+                                                    Write your feedback
                                                 </label>
                                                 <textarea
                                                     className="flex w-full mt-2 rounded-[15px] border-[1.5px] leading-[20px] font-normal border-gray-100 bg-transparent p-[13px] text-base text-gray-300 placeholder:text-gray-200 focus:outline-none"

@@ -10,6 +10,7 @@ import Payment from './pages/Payment';
 import Profile from './pages/Profile';
 import GuestCheckout from './pages/GuestCheckout';
 import ReturnOrder from './pages/ReturnOrder';
+import Feedback from './pages/Feedback';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route exact path="/my-profile" element={<Profile />} />
         <Route exact path="/guest-checkout" element={<GuestCheckout />} />
         <Route exact path="/return-order" element={<ReturnOrder />} />
+        <Route exact path="/feedback" element={<Feedback />} />
       </Routes>
     </Router>
   );
