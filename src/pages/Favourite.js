@@ -37,7 +37,7 @@ export default function Favourite() {
                         className="px-2 h-max lg:text-lg text-base pl-14 font-normal lg:leading-[22px] leading-5 w-full bg-slate border-[1.5px] lg:py-[18px] py-3 rounded-[50px] border-gray-300 focus:outline-none placeholder:text-gray-200 text-gray-300"
                     />
                 </div>
-                <div className='grid xl:grid-cols-4 lg:grid-cols-3 grid-cols-2 md:gap-x-[30px] md:gap-y-[30px] gap-x-2.5 gap-y-5'>
+                <div className='grid xl:grid-cols-4 lg:grid-cols-3 xxs:grid-cols-2 grid-cols-1 md:gap-x-[30px] md:gap-y-[30px] gap-x-2.5 gap-y-5'>
                     <FilterCard />
                     <FilterCard />
                     <FilterCard />

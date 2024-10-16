@@ -60,7 +60,10 @@ export default function ReviewTab() {
         }
     ];
 
-    const tabs = ['product description', 'customer feedbacks'];
+    const tabs = [
+        { id: 'product description', label: 'Product Description', mobileLabel: 'Description' },
+        { id: 'customer feedbacks', label: 'Customer Feedbacks', mobileLabel: 'Feedbacks' }
+    ];
 
     const sections = [
         {
@@ -93,10 +96,16 @@ export default function ReviewTab() {
                     <div className="lg:mb-[50px] mb-[25px]">
                         <div className='md:gap-[25px] gap-2.5 md:p-2.5 p-2 flex border-[1.5px] rounded-[500px] border-gray-300'>
                             {tabs.map((tab) => (
-                                <button key={tab} onClick={() => handleTabClick(tab)} className={`w-full py-[18px] md:px-5 rounded-[50px] cursor-pointer md:font-medium font-semibold md:text-[22px] text-[17px] leading-[22px] tracking-[0.02em] capitalize ${activeTab === tab ? 'bg-gray-300 text-white' : 'text-gray-300'}`}>
-                                    {tab}
-                                </button>
-                            ))}
+                            <button 
+                                key={tab.id} 
+                                onClick={() => handleTabClick(tab.id)} 
+                                className={`w-full py-[18px] md:px-5 rounded-[50px] cursor-pointer md:font-medium font-semibold md:text-[22px] text-[17px] leading-[22px] tracking-[0.02em] capitalize ${activeTab === tab.id ? 'bg-gray-300 text-white' : 'text-gray-300'}`}
+                            >
+                                <span className="hidden md:block">{tab.label}</span>
+
+                                <span className="md:hidden">{tab.mobileLabel}</span>
+                            </button>
+                        ))}
                         </div>
                     </div>
                     {activeTab === 'product description' && (

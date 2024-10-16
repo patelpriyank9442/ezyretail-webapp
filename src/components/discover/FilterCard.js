@@ -12,7 +12,7 @@ export default function FilterCard() {
                 <img
                     src={product}
                     alt="img"
-                    className="md:h-[248px] h-[140px] w-full md:rounded-[35px] rounded-[15px] object-cover"
+                    className="md:h-[248px] xxs:h-[140px] h-full w-full md:rounded-[35px] rounded-[15px] object-cover"
                 />
                 <div className='md:w-[45px] md:h-[45px] absolute md:right-5 md:top-5 right-[12px] top-2.5 w-[32px] h-[32px] md:p-2.5 md:p-1.5 p-2 bg-white rounded-[13px] flex items-center justify-center'>
                     <img src={heartIcon} className='h-auto w-auto' alt='favouritr' />

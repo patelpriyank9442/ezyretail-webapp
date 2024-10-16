@@ -24,7 +24,7 @@ export default function Home() {
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
-        arrows: false
+        arrows: false,
     };
     const productSettings = {
         dots: true,
@@ -116,26 +116,66 @@ export default function Home() {
                 </div>
             </div>
             <div className='container mx-auto xl:px-0 px-[18px] lg:py-[100px] sm:py-[70px] py-[40px]'>
-                <div className='lg:grid grid-cols-2 gap-5'>
-                    <div className='flex gap-5'>
-                        <div><img src={women} alt='womenImage' /></div>
-                        <div className='sm:space-y-5 space-y-2.5'>
-                            <div>
-                                <img src={watches} alt='womenImage' />
+                <div className='xl:grid grid-cols-2 gap-5'>
+                    <div className='md:flex gap-5 w-full'>
+                        <div className="flex flex-col pt-5 text-base xs:text-3xl xl:text-xl font-bold tracking-wide leading-10 uppercase bg-white rounded-[25px] text-gray-300 justify-between w-full">
+                            <div className="self-start ml-5">women's </div>
+                            <img
+                                loading="lazy"
+                                src={women}
+                                className="w-full rounded-[25px]"
+                                alt='img'
+                            />
+                        </div>
+                        <div className='flex flex-col gap-y-5 md:mt-0 mt-5 w-full'>
+                            <div className="flex text-base xs:text-3xl xl:text-xl pr-5 font-bold tracking-wide leading-10 uppercase bg-white rounded-[25px] text-gray-300 items-end">
+                                <img
+                                    loading="lazy"
+                                    src={watches}
+                                    className="lg:w-full md:w-[59%] xxs:w-full xl:w-[68%] 2xl:w-[191px] w-[191px] rounded-[25px]"
+                                    alt='img'
+                                />
+                                <div className='pb-5'>Watches</div>
                             </div>
-                            <div>
-                                <img src={footwear} alt='womenImage' />
+                            <div className="flex flex-col pt-5 text-base xs:text-3xl xl:text-xl font-bold tracking-wide leading-10 uppercase bg-white rounded-[25px] text-gray-300 justify-between h-full">
+                                <div className="self-start ml-5">footwear</div>
+                                <img
+                                    loading="lazy"
+                                    src={footwear}
+                                    className="w-full rounded-[25px]"
+                                    alt='img'
+                                />
                             </div>
                         </div>
                     </div>
-                    <div className='lg:pt-0 sm:pt-5 pt-2.5 flex gap-5'>
-                        <div><img src={mens} alt='womenImage' /></div>
-                        <div className='sm:space-y-5 space-y-2.5'>
-                            <div>
-                                <img src={bags} alt='womenImage' />
+                    <div className='md:flex gap-5 xl:mt-0 mt-5 w-full'>
+                        <div className="flex flex-col pt-5 text-base xs:text-3xl xl:text-xl font-bold tracking-wide leading-10 uppercase bg-white rounded-[25px] text-gray-300 justify-between w-full">
+                            <div className="self-start ml-5">Man’s</div>
+                            <img
+                                loading="lazy"
+                                src={mens}
+                                className="w-full rounded-[25px]"
+                                alt='img'
+                            />
+                        </div>
+                        <div className='flex flex-col gap-y-5 md:mt-0 mt-5 w-full'>
+                            <div className="flex text-base xs:text-3xl xl:text-xl font-bold tracking-wide leading-10 uppercase bg-white rounded-[25px] text-gray-300 justify-between">
+                                <div className='pt-5 pl-5'>bags</div>
+                                <img
+                                    loading="lazy"
+                                    src={bags}
+                                    className="sm:w-full w-[191px] rounded-[25px]"
+                                    alt='img'
+                                />
                             </div>
-                            <div>
-                                <img src={jewelry} alt='womenImage' />
+                            <div className="flex text-base xs:text-3xl xl:text-xl pr-5 font-bold tracking-wide leading-10 uppercase bg-white rounded-[25px] text-gray-300 items-end">
+                                <img
+                                    loading="lazy"
+                                    src={jewelry}
+                                    className="w-full rounded-[25px]"
+                                    alt='img'
+                                />
+                                <div className="pb-5">jewelry</div>
                             </div>
                         </div>
                     </div>

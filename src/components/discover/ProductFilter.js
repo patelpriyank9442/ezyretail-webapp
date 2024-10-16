@@ -239,7 +239,7 @@ export default function ProductFilter() {
                             <div className="lg:mb-[30px] mb-5 mt-5 gap-3 tabSlider relative">
                                 <Slider {...settings} ref={siderPreview} className='slideArrow'>
                                     {tabs.map((tab) => (
-                                        <button key={tab} onClick={() => handleTabClick(tab)} className={`py-2.5 px-5 rounded-[50px] cursor-pointer border-[1.5px] border-gray-300 font-medium text-lg leading-[22px] tracking-[0.02em] ${activeTab === tab ? 'bg-gray-300 text-white' : 'text-gray-300'}`}>
+                                        <button key={tab} onClick={() => handleTabClick(tab)} className={`w-full py-2.5 px-5 rounded-[50px] cursor-pointer border-[1.5px] border-gray-300 font-medium text-lg leading-[22px] tracking-[0.02em] ${activeTab === tab ? 'bg-gray-300 text-white' : 'text-gray-300'}`}>
                                             {tab}
                                         </button>
                                     ))}
@@ -253,7 +253,7 @@ export default function ProductFilter() {
                             </div>
                             {activeTab === 'All' && (
                                 <>
-                                    <div className='grid xl:grid-cols-3 grid-cols-2 md:gap-[30px] gap-2.5'>
+                                    <div className='grid xl:grid-cols-3 xxs:grid-cols-2 grid-cols-1 md:gap-[30px] gap-2.5'>
                                         <FilterCard />
                                         <FilterCard />
                                         <FilterCard />
@@ -277,7 +277,7 @@ export default function ProductFilter() {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className='grid xl:grid-cols-3 grid-cols-2 md:gap-[30px] gap-2.5'>
+                                    <div className='grid xl:grid-cols-3 xxs:grid-cols-2 grid-cols-1 md:gap-[30px] gap-2.5'>
                                         <FilterCard />
                                         <FilterCard />
                                         <FilterCard />

@@ -106,11 +106,11 @@ export default function Header() {
             <div className='container mx-auto sm:py-[30px] py-[25px] xl:px-0 px-[18px] relative'>
                 <div className={`w-full bg-black rounded-[500px] relative ${walletBalance || searchProduct ? 'z-[90]' : ''}`}>
                     <div className="flex items-center justify-between lg:pl-10 sm:pl-6 pl-3 pr-3 py-3">
-                        <div className="inline-flex items-center sm:space-x-0 space-x-3">
+                        <div className="inline-flex items-center sm:space-x-0 xxs:space-x-3 space-x-2">
                             <div className="sm:hidden sm:w-[42px] sm:h-[42px] w-[30px] h-[30px] sm:p-2.5 p-2 bg-white rounded-full flex items-center justify-center" onClick={toggleMenu}>
                                 <img src={menuIcon} alt='menuIcon' className="cursor-pointer text-white" />
                             </div>
-                            <img src={ezyRetailWhite} alt='logo' className='h-auto lg:w-[165px] w-[92px]' />
+                            <img src={ezyRetailWhite} alt='logo' className='h-auto lg:w-[165px] xxs:w-[92px] w-[84px]' />
                         </div>
                         <div className="hidden md:flex">
                             <ul className="inline-flex xl:space-x-[30px] space-x-5">
@@ -127,7 +127,7 @@ export default function Header() {
                                 ))}
                             </ul>
                         </div>
-                        <div className='flex items-center xl:gap-[15px] gap-2'>
+                        <div className='flex items-center xl:gap-[15px] xxs:gap-2 gap-1'>
                             <div onClick={searchMenu} className='lg:w-[42px] lg:h-[42px] w-[30px] h-[30px] lg:p-2.5 md:p-1.5 p-2 bg-white rounded-full flex items-center justify-center'>
                                 <img src={searchIcon} className='h-auto w-auto' alt='search' />
                             </div>
