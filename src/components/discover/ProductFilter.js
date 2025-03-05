@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import filterIcon from '../../../src/assets/images/filterIcon.svg';
 import InputRange from 'react-input-range';
 import 'react-input-range/lib/css/index.css';
@@ -9,20 +9,12 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import chevronRight from '../../../src/assets/images/chevronRight.svg';
 import FilterCard from './FilterCard';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCategory } from '../../store/ApiSlice/categorySlice';
+import { getProductTagList } from '../../store/ApiSlice/productTagSlice';
+import { getProductAttribute, getProductDetail, getProductFilterDetail, getProductVariant } from '../../store/ApiSlice/productSlice';
 
-const filterCategories = [
-    { label: "Men's", key: "mens" },
-    { label: "Women’s", key: "womens" },
-    { label: "Kids", key: "kids" },
-    { label: "Unisex", key: "unisex" },
-];
 
-const filterCollections = [
-    { label: "Summer Collection", key: "summer" },
-    { label: "New Arrival", key: "newArrival" },
-    { label: "Winter Collection", key: "winter" },
-    { label: "Sports Collection", key: "sports" },
-];
 
 const filterFabrics = [
     { label: "Cotton", key: "cotton" },
@@ -104,19 +96,27 @@ const fashionSettings = {
     ],
 };
 
-const FilterSection = ({ title, items }) => (
+const FilterSection = ({ title, items, sectionKey, selectedFilters, onFilterChange }) => (
     <div className='space-y-3'>
         <h2 className='text-gray-300 font-semibold text-[19px] leading-[23px]'>{title}</h2>
-        {items.map(item => (
-            <div key={item.key} className='flex gap-2 items-center'>
-                <input type='checkbox' className='rounded-[5px] h-[17px] w-[17px] border-[1.5px] border-gray-300' />
-                <p className='font-normal text-base leading-[20px] tracking-[0.02em]'>{item.label}</p>
-            </div>
-        ))}
+        {items?.map(item => {
+            console.log("0000000000000", item);
+
+            return (
+                <div key={item._id} className='flex gap-2 items-center'>
+                    <input type='checkbox'
+                        className='rounded-[5px] h-[17px] w-[17px] border-[1.5px] border-gray-300'
+                        checked={(selectedFilters[sectionKey] || [])?.includes(item._id) || false}
+                        onChange={() => onFilterChange(sectionKey, item?._id)}
+                    />
+                    <p className='font-normal text-base leading-[20px] tracking-[0.02em]'>{item.label}</p>
+                </div>
+            )
+        })}
     </div>
 );
 
-const FilterContent = ({ value, setValue }) => (
+const FilterContent = ({ value, setValue, filterCategories, filterCollections, filterFabric, filterSize, handleFilterChange, selectedFilters }) => (
     <div className='space-y-5 lg:pb-0 pb-[100px]'>
         <div className='items-center gap-[15px] lg:flex hidden'>
             <div className='bg-gray-300 rounded-full flex items-center justify-center w-[35px] h-[35px]'>
@@ -124,11 +124,41 @@ const FilterContent = ({ value, setValue }) => (
             </div>
             <p className='font-bold text-[28px] text-gray-300 leading-[41px] tracking-[0.02em]'>Filters</p>
         </div>
-        <FilterSection title="Filter by Category" items={filterCategories} />
-        <FilterSection title="Filter by Collection" items={filterCollections} />
-        <FilterSection title="Filter by Fabric" items={filterFabrics} />
-        <FilterSection title="Filter by Size" items={filterSizes} />
-        <FilterSection title="Filter by Discount" items={filterDiscount} />
+        <FilterSection
+            title="Filter by Category"
+            items={filterCategories}
+            sectionKey="category"
+            selectedFilters={selectedFilters}
+            onFilterChange={handleFilterChange}
+        />
+        <FilterSection
+            title="Filter by Collection"
+            items={filterCollections}
+            sectionKey="collection"
+            selectedFilters={selectedFilters}
+            onFilterChange={handleFilterChange}
+        />
+        <FilterSection
+            title="Filter by Fabric"
+            items={filterFabric}
+            sectionKey="fabric"
+            selectedFilters={selectedFilters}
+            onFilterChange={handleFilterChange}
+        />
+        <FilterSection
+            title="Filter by Size"
+            items={filterSize}
+            sectionKey="size"
+            selectedFilters={selectedFilters}
+            onFilterChange={handleFilterChange}
+        />
+        <FilterSection
+            title="Filter by Discount"
+            items={filterDiscount}
+            sectionKey="discount"
+            selectedFilters={selectedFilters}
+            onFilterChange={handleFilterChange}
+        />
         <div className='space-y-3 priceFilter'>
             <h2 className='text-gray-300 font-semibold text-[19px] leading-[23px]'>Filter By Price</h2>
             <InputRange
@@ -191,8 +221,86 @@ const FilterModal = ({ isOpen, onClose, value, setValue }) => {
 
 export default function ProductFilter() {
     const [value, setValue] = useState({ min: 0, max: 1000 });
+    console.log("valuevaluevalue", value);
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [activeTab, setActiveTab] = useState('All');
+    const { categoryList } = useSelector((state) => state.category)
+    const { productTagDetail } = useSelector((state) => state.productTag)
+    const { productVariantDetail, productAttributeDetail } = useSelector((state) => state.product)
+    console.log("productVariantDetailproductVariantDetail", productVariantDetail);
+
+    const [selectedFilters, setSelectedFilters] = useState({
+        category: [],
+        collection: [],
+        fabric: [],
+        size: [],
+        discount: [],
+    });
+    const dispatch = useDispatch()
+    console.log("selectedFiltersselectedFilters", selectedFilters);
+
+
+    const handleFilterChange = (sectionKey, id) => {
+        setSelectedFilters(prevState => {
+            const isSelected = prevState[sectionKey]?.includes(id);
+            const updatedSection = isSelected
+                ? prevState[sectionKey].filter(itemId => itemId !== id) // Remove `_id`
+                : [...prevState[sectionKey], id]; // Add `_id`
+
+            return { ...prevState, [sectionKey]: updatedSection };
+        });
+    };
+
+    const findfabricVariant = productAttributeDetail?.find((item) => item?.name === "Fabric")
+    const findSizeVariant = productAttributeDetail?.find((item) => item?.name === "Size")
+    const findfabricDetail = productVariantDetail?.filter((item) => item?.attributeId === findfabricVariant?._id)
+    const findSizeDetail = productVariantDetail?.filter((item) => item?.attributeId === findSizeVariant?._id)
+
+    const filterCategories = categoryList.map(item => ({
+        _id: item?._id,
+        label: item.name.charAt(0).toUpperCase() + item.name.slice(1).toLowerCase(),
+        key: item.name.toLowerCase().replace(/[^a-z0-9]/g, "")
+    }));
+
+    const filterCollections = productTagDetail.map(item => ({
+        _id: item?._id,
+        label: item.name,
+        key: item.name
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "")
+            .replace(/collection$/, "")
+    }));
+
+    const filterFabric = findfabricDetail?.map((item) => ({
+        _id: item?._id,
+        label: item?.name,
+        key: item?.name.toLowerCase()
+            .replace(/[^a-z0-9]+/g, "")
+            .replace(/collection$/, "")
+    }))
+    const filterSize = findSizeDetail?.map((item) => ({
+        _id: item?._id,
+        label: item?.name,
+        key: item?.name.toLowerCase()
+            .replace(/[^a-z0-9]+/g, "")
+            .replace(/collection$/, "")
+    }))
+
+    useEffect(() => {
+        dispatch(getCategory())
+        dispatch(getProductTagList())
+        dispatch(getProductVariant())
+        dispatch(getProductAttribute())
+    }, [])
+
+    useEffect(() => {
+        const ctegoryId = selectedFilters?.category.join(",")
+        const collectionId = selectedFilters?.collection.join(",")
+        const fabricId = selectedFilters?.fabric.join(",")
+        const sizeId = selectedFilters?.size.join(",")
+        dispatch(getProductFilterDetail({ ctegoryId, collectionId, fabricId, sizeId, value }))
+    }, [selectedFilters?.category, selectedFilters?.collection, selectedFilters?.size, value])
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
@@ -211,7 +319,16 @@ export default function ProductFilter() {
                 <div className='grid lg:grid-cols-4 gap-[30px]'>
                     <div className='lg:grid hidden grid-cols-1 relative'>
                         <div className='bg-white rounded-[40px] sticky p-[25px] h-[850px] overflow-y-auto hide-scroll'>
-                            <FilterContent value={value} setValue={setValue} />
+                            <FilterContent
+                                value={value}
+                                setValue={setValue}
+                                filterCategories={filterCategories}
+                                filterCollections={filterCollections}
+                                filterFabric={filterFabric}
+                                filterSize={filterSize}
+                                handleFilterChange={handleFilterChange}
+                                selectedFilters={selectedFilters}
+                            />
                         </div>
                     </div>
                     <div className='grid col-span-3 h-fit'>
@@ -255,11 +372,6 @@ export default function ProductFilter() {
                                 <>
                                     <div className='grid xl:grid-cols-3 xxs:grid-cols-2 grid-cols-1 md:gap-[30px] gap-2.5'>
                                         <FilterCard />
-                                        <FilterCard />
-                                        <FilterCard />
-                                        <FilterCard />
-                                        <FilterCard />
-                                        <FilterCard />
                                     </div>
                                     <div className='my-[30px]'>
                                         <div className='bg-gray-300 lg:rounded-[40px] rounded-[20px] lg:p-[30px] px-3 py-[15px]'>
@@ -277,14 +389,14 @@ export default function ProductFilter() {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className='grid xl:grid-cols-3 xxs:grid-cols-2 grid-cols-1 md:gap-[30px] gap-2.5'>
+                                    {/* <div className='grid xl:grid-cols-3 xxs:grid-cols-2 grid-cols-1 md:gap-[30px] gap-2.5'>
                                         <FilterCard />
                                         <FilterCard />
                                         <FilterCard />
                                         <FilterCard />
                                         <FilterCard />
                                         <FilterCard />
-                                    </div>
+                                    </div> */}
                                 </>
                             )}
                         </div>

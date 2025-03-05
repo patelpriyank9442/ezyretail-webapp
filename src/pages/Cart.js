@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import chevronLeft from '../../src/assets/images/chevronLeft.svg';
@@ -7,7 +7,10 @@ import product from '../../src/assets/images/product.svg';
 import removeIcon from '../../src/assets/images/removeIcon.svg';
 import plusIcon from '../../src/assets/images/plusIcon.svg';
 import minusIcon from '../../src/assets/images/minusIcon.svg';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteProductCart, getAddToCartDetail, setCartData } from "../store/ApiSlice/cartSlice";
+import toast from "react-hot-toast";
 
 const products = [
     { id: 1, name: 'Premium Blue Dress', price: 55800.00, image: product },
@@ -15,8 +18,55 @@ const products = [
 ];
 
 export default function Cart() {
+    const { cartDetail } = useSelector((state) => state.cart)
+    const { cartData } = useSelector((state) => state.cart);
+    console.log("cartDatacartData", cartData);
+
+    const { productDetail, productVariantDetail, productAttributeDetail } = useSelector((state) => state.product)
+
+
     const [quantities, setQuantities] = useState(products.map(() => 1));
+    console.log("quantitiesquantities", quantities);
+
+    // const [cartData, setCartData] = useState([]);
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     const maxQuantity = 10;
+    // let totalPrice = 0;
+    // let totalTax = 0;
+
+    const filterCartProduct = productDetail?.filter((item) => cartDetail?.some((row) => row?.productId === item?._id))
+    console.log("filterCartProductfilterCartProduct", filterCartProduct);
+
+    // useEffect(() => {
+    //     const cartProduct = JSON.parse(localStorage.getItem("cart")) || [];
+    //     console.log("cartProductcartProduct", cartProduct);
+
+    //     dispatch(setCartData(cartProduct));
+    // }, []);
+
+
+
+    const calculateTotals = (cartData) => {
+        let totalPrice = 0;
+        let totalTax = 0;
+
+        if (Array.isArray(cartData)) {
+            cartData.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                const itemTax = item.tax * item.quantity;
+
+                totalPrice += itemTotal;
+                totalTax += itemTax;
+            });
+        } else {
+            console.error("cartData is not an array:", cartData);
+        }
+
+        return { totalPrice, totalTax };
+    };
+    const { totalPrice, totalTax } = calculateTotals(cartData);
 
     const updateButtonStates = (quantity) => ({
         minusDisabled: quantity <= 1,
@@ -24,35 +74,63 @@ export default function Cart() {
     });
 
     const handleButtonClick = (index, type) => {
-        setQuantities((prevQuantities) =>
-            prevQuantities.map((quantity, i) => {
-                if (i === index) {
-                    if (type === 'minus') {
-                        return Math.max(quantity - 1, 1);
-                    } else if (type === 'plus') {
-                        return Math.min(quantity + 1, maxQuantity);
-                    }
-                }
-                return quantity;
-            })
-        );
+        const updatedCartData = cartData.map((item, i) => {
+            if (i === index) {
+                const updatedQuantity =
+                    type === "minus"
+                        ? Math.max(item.quantity - 1, 1) // Ensure quantity doesn't go below 1
+                        : Math.min(item.quantity + 1, item.stock); // Ensure quantity doesn't exceed stock
+                return { ...item, quantity: updatedQuantity }; // Return updated item
+            }
+            return item; // Return unmodified item for other indices
+        });
+
+        dispatch(setCartData(updatedCartData));
     };
 
-    const handleQuantityChange = (index, event) => {
+
+    const handleQuantityChange = (index, event, fieldName) => {
         let value = parseInt(event.target.value, 10);
         value = isNaN(value) ? 1 : value;
-        setQuantities((prevQuantities) =>
-            prevQuantities.map((quantity, i) => (i === index ? value : quantity))
-        );
+        const updatedQuantity = [...cartData]
+        updatedQuantity[index][fieldName] = value
+        dispatch(setCartData(updatedQuantity));
     };
 
     const pricingDetails = [
-        { label: 'Total Price', amount: '$1,11,600.00' },
-        { label: 'Tax', amount: '+$400.00' },
+        { label: 'Total Price', amount: `$${totalPrice}` },
+        { label: 'Tax', amount: `+$${totalTax}` },
         { label: 'Gift Coupon', amount: '-$0.00' },
         { label: 'Paying From Wallet', amount: '-$0.00' },
         { label: 'Shipping Charges', amount: '$0.00' }
     ];
+
+    let totalAmount = pricingDetails.reduce((acc, item) => {
+        let amount = parseFloat(item.amount.replace(/[^\d.-]/g, ''));
+        return acc + amount;
+    }, 0);
+
+    totalAmount = totalAmount.toFixed(2);
+
+
+    useEffect(() => {
+        dispatch(getAddToCartDetail())
+    }, [])
+
+    const handleDelete = async (id) => {
+
+        const updatedCartData = cartData.filter((product) => product?._id !== id);
+        // localStorage.setItem("cart", JSON.stringify(updatedCartData));
+
+        dispatch(setCartData(updatedCartData));
+
+        toast.success("Product removed from cart.");
+
+    }
+
+    const handleCheckout = () => {
+        localStorage.setItem("cart", JSON.stringify(cartData))
+    }
 
     return (
         <>
@@ -60,7 +138,9 @@ export default function Cart() {
                 <Header />
                 <div className='container mx-auto xl:px-0 px-[18px]'>
                     <div className='flex mb-[23px]'>
-                        <div className='flex gap-4 items-center'>
+                        <div className='flex gap-4 items-center cursor-pointer' onClick={() => {
+                            navigate("/product")
+                        }}>
                             <img src={chevronLeft} className='h-auto w-auto' alt='favourite' />
                             <p className='text-gray-300 font-medium lg:text-lg text-base lg:leading-[22px] leading-[20px] capitalize'>Back to shopping</p>
                         </div>
@@ -70,15 +150,15 @@ export default function Cart() {
                             <h1 className="text-gray-300 font-[oswald] font-bold lg:text-[45px] text-[30px] lg:leading-[58px] leading-[39px] tracking-[0.01em] uppercase">my cart</h1>
                             <p className="text-gray-300 sm:w-[500px] w-auto font-normal md:text-xl text-[15px] md:leading-[25px] leading-[18px] mt-2.5">Process pending order and make cart product yours.</p>
                         </div>
-                        <div className="lg:flex hidden">
+                        <div className="lg:flex hidden" onClick={handleCheckout()}>
                             <Link to='/checkout'>
-                            <button
-                                type="button"
-                                className="rounded-full h-fit w-full flex justify-center items-center gap-4 font-[oswald] uppercase bg-gray-300 sm:p-[18px] p-3 text-[22px] font-bold text-white border-[1.5px] border-gray-300 leading-[32px] tracking-[0.02em]"
-                            >
-                                Continue to Checkout
-                                <img src={chevronRight} className='h-auto w-auto invert' alt='favourite' />
-                            </button>
+                                <button
+                                    type="button"
+                                    className="rounded-full h-fit w-full flex justify-center items-center gap-4 font-[oswald] uppercase bg-gray-300 sm:p-[18px] p-3 text-[22px] font-bold text-white border-[1.5px] border-gray-300 leading-[32px] tracking-[0.02em]"
+                                >
+                                    Continue to Checkout
+                                    <img src={chevronRight} className='h-auto w-auto invert' alt='favourite' />
+                                </button>
                             </Link>
                         </div>
                     </div>
@@ -101,7 +181,7 @@ export default function Cart() {
                                         <div className="border-b-[1.5px] border-gray-300 my-[19px]"></div>
                                         <div className="flex justify-between items-center">
                                             <p className="text-gray-300 lg:text-lg font-semibold lg:leading-[22px] text-base leading-[20px]">Subtotal</p>
-                                            <p className="font-[oswald] text-gray-300 lg:text-lg text-xl font-bold lg:leading-[26px] leading-[29px]">$1,12,000.00</p>
+                                            <p className="font-[oswald] text-gray-300 lg:text-lg text-xl font-bold lg:leading-[26px] leading-[29px]">${totalAmount}</p>
                                         </div>
                                     </div>
                                     <div className="bg-gray-100 lg:rounded-[15px] lg:p-[15px] rounded-[12px] p-3 lg:space-y-[15px] space-y-3">
@@ -129,16 +209,17 @@ export default function Cart() {
                                 </div>
                             </div>
                             <div className="grid col-span-4 h-fit">
-                                {products.map((product, index) => {
-                                    const { minusDisabled, plusDisabled } = updateButtonStates(quantities[index]);
+                                {cartData.map((product, index) => {
+                                    console.log(product, "productproduct");
 
+                                    const { minusDisabled, plusDisabled } = updateButtonStates(quantities[index]);
                                     return (
                                         <div key={product.id} className="bg-white rounded-[20px] lg:p-[25px] p-[15px] mb-4">
                                             <div className="space-y-5">
                                                 <div className="flex justify-between items-center">
                                                     <div className="flex gap-[15px] items-center">
                                                         <img
-                                                            src={product.image}
+                                                            src={product.images[0]}
                                                             alt="img"
                                                             className="xl:h-[120px] xl:w-[120px] lg:h-[100px] lg:w-[100px] h-[50px] w-[50px] lg:rounded-[15px] rounded-[8px] object-cover"
                                                         />
@@ -170,21 +251,23 @@ export default function Cart() {
                                                         <input
                                                             type="number"
                                                             className="lg:w-[55px] md:w-[80px] sm:w-[84px] w-14 text-center font-semibold border-0 p-2 text-base focus:outline-none"
-                                                            value={quantities[index]}
+                                                            value={product?.quantity}
                                                             min="1"
                                                             max={maxQuantity}
-                                                            onChange={(event) => handleQuantityChange(index, event)}
+                                                            onChange={(event) => handleQuantityChange(index, event, "quantity")}
                                                         />
                                                         <button
                                                             className="bg-gray-300 text-white border-0 text-xl text-center justify-center px-[9px]"
                                                             onClick={() => handleButtonClick(index, 'plus')}
                                                             aria-label="Increase"
-                                                            disabled={plusDisabled}
+                                                        // disabled={plusDisabled}
                                                         >
                                                             <img src={plusIcon} className='h-auto w-[13px] invert' alt='img' />
                                                         </button>
                                                     </div>
-                                                    <div className="flex gap-[5px] items-center">
+                                                    <div className="flex gap-[5px] items-center" onClick={() => {
+                                                        handleDelete(product?._id)
+                                                    }}>
                                                         <img src={removeIcon} alt="img" className="w-4 h-4" />
                                                         <p className="text-alert-300 font-medium text-[19px] leading-[23px]">Remove</p>
                                                     </div>

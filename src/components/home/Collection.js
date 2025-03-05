@@ -1,12 +1,15 @@
 import React from 'react';
 import shoes from '../../../src/assets/images/shoes.svg';
+import { useNavigate } from 'react-router';
 
 export default function Collection() {
+    const navigate = useNavigate()
     const data = [
         { title: 'Sneaker Collection', description: 'Step into Style: Where Comfort Meets Chic.' },
         { title: 'new launched', description: 'Discover the New: Embrace Trends, Rewrite Fashion.' },
         { title: 'summer collection', description: 'Beach Vibes: Unveiling Our Summer Collection.' },
     ];
+
     return (
         <>
             <div className='w-full bg-white'>
@@ -33,6 +36,9 @@ export default function Collection() {
                                         <button
                                             type="button"
                                             className="rounded-full font-[oswald] uppercase bg-transparent sm:px-[30px] px-[22px] sm:py-[15px] py-3 text-lg font-bold text-gray-300 border-[1.5px] border-gray-300 leading-[26px] tracking-[0.02em]"
+                                            onClick={() => {
+                                                navigate("/product")
+                                            }}
                                         >
                                             view collection
                                         </button>

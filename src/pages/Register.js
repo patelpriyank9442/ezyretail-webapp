@@ -6,16 +6,89 @@ import facebookIcon from '../../src/assets/images/facebookIcon.svg';
 import chevronRight from '../../src/assets/images/chevronRight.svg';
 import eye from '../../src/assets/images/eye.svg';
 import hiddeneye from '../../src/assets/images/hiddeneye.svg';
+import toast from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import { signUp } from '../store/ApiSlice/authSlice';
 
 export default function Register({ registerModal, setRegisterModal, setLoginModal }) {
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [confirmVisible, setConfirmVisible] = useState(false);
+    const [inputData, setInputData] = useState({});
+    const dispatch = useDispatch();
+
+    const handleChange = (e) => {
+        setInputData({ ...inputData, [e.target.name]: e.target.value });
+    };
     const togglePasswordVisibility = () => {
         setPasswordVisible(!passwordVisible);
     };
     const toggleConfirmVisibility = () => {
         setConfirmVisible(!confirmVisible);
     };
+
+    const validation = () => {
+        let formIsValid = true;
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (
+            !inputData?.firstName?.trim() &&
+            !inputData?.lastName?.trim() &&
+            !inputData?.mobile?.trim() &&
+            !inputData?.email?.trim() &&
+            !inputData?.password?.trim() &&
+            !inputData?.confirmPassword?.trim()
+        ) {
+            formIsValid = false;
+            toast("Please fill the registration form.");
+        } else if (!inputData?.firstName?.trim()) {
+            formIsValid = false;
+            toast("Please enter firstname.");
+        } else if (!inputData?.lastName?.trim()) {
+            formIsValid = false;
+            toast("Please enter lastname.");
+        } else if (!inputData?.mobile?.trim()) {
+            formIsValid = false;
+            toast("Please enter contact.");
+        } else if (!inputData?.email?.trim()) {
+            formIsValid = false;
+            toast("Please enter email address.");
+        } else if (!emailRegex.test(inputData?.email)) {
+            formIsValid = false;
+            toast("Please enter a valid email address.");
+        } else if (!inputData?.password?.trim()) {
+            formIsValid = false;
+            toast("Please enter password.");
+        } else if (inputData?.password !== inputData?.confirmPassword) {
+            formIsValid = false;
+            toast("Passwords do not match.");
+        } else {
+            return formIsValid;
+        }
+    };
+
+    const handleSignup = async () => {
+        if (validation()) {
+            const userData = {
+                firstName: inputData.firstName,
+                lastName: inputData.lastName,
+                mobile: inputData.mobile,
+                email: inputData.email,
+                password: inputData.password,
+                roleId: "6631143102144c1259e9919a"
+            };
+            dispatch(signUp(userData)).then((res) => {
+                if (res.payload.success) {
+                    toast.success("Welcome to ezy retail");
+                } else {
+                    if (res.payload.message === "Email is already registered.") {
+                        toast.error("Email already exists.");
+                    } else {
+                        toast.error(res?.payload.message)
+                    }
+                }
+            });
+        }
+    };
+
     return (
         <>
             <Modal
@@ -44,10 +117,13 @@ export default function Register({ registerModal, setRegisterModal, setLoginModa
                                     First name
                                 </div>
                                 <input
-                                    name="first_name"
+                                    name="firstName"
                                     type="text"
                                     className="placeholder:text-gray-200 w-full mt-2 text-gray-300 font-normal text-base leading-[20px] p-[13px] border-[1.5px] border-gray-100 rounded-[50px] focus:outline-none"
-                                    placeholder="Enter full name"
+                                    placeholder="Enter first name"
+                                    onChange={(e) => {
+                                        handleChange(e);
+                                    }}
                                 />
                             </div>
                             <div className="w-full">
@@ -55,10 +131,13 @@ export default function Register({ registerModal, setRegisterModal, setLoginModa
                                     Last name
                                 </div>
                                 <input
-                                    name="last_name"
+                                    name="lastName"
                                     type="text"
                                     className="placeholder:text-gray-200 w-full mt-2 text-gray-300 font-normal text-base leading-[20px] p-[13px] border-[1.5px] border-gray-100 rounded-[50px] focus:outline-none"
-                                    placeholder="Enter full name"
+                                    placeholder="Enter last name"
+                                    onChange={(e) => {
+                                        handleChange(e);
+                                    }}
                                 />
                             </div>
                         </div>
@@ -71,6 +150,9 @@ export default function Register({ registerModal, setRegisterModal, setLoginModa
                                 type="email"
                                 className="placeholder:text-gray-200 w-full mt-2 text-gray-300 font-normal text-base leading-[20px] p-[13px] border-[1.5px] border-gray-100 rounded-[50px] focus:outline-none"
                                 placeholder="Enter email address"
+                                onChange={(e) => {
+                                    handleChange(e);
+                                }}
                             />
                         </div>
                         <div className="w-full">
@@ -78,10 +160,13 @@ export default function Register({ registerModal, setRegisterModal, setLoginModa
                                 Mobile
                             </div>
                             <input
-                                name="Mobile"
+                                name="mobile"
                                 type="number"
                                 className="placeholder:text-gray-200 w-full mt-2 text-gray-300 font-normal text-base leading-[20px] p-[13px] border-[1.5px] border-gray-100 rounded-[50px] focus:outline-none"
                                 placeholder="Enter mobile number"
+                                onChange={(e) => {
+                                    handleChange(e);
+                                }}
                             />
                         </div>
                         <div className="w-full">
@@ -94,6 +179,9 @@ export default function Register({ registerModal, setRegisterModal, setLoginModa
                                     type={passwordVisible ? "text" : "password"}
                                     className="placeholder:text-gray-200 flex w-full mt-2 text-gray-300 font-normal text-base leading-[20px] p-[13px] border-[1.5px] border-gray-100 rounded-[50px] focus:outline-none"
                                     placeholder="Enter password"
+                                    onChange={(e) => {
+                                        handleChange(e);
+                                    }}
                                 />
                                 <img src={passwordVisible ? hiddeneye : eye} onClick={togglePasswordVisibility} alt='img' className={`absolute pointer right-[13px] ${passwordVisible ? 'top-[16px]' : 'top-[18px]'}`} />
                             </div>
@@ -104,10 +192,13 @@ export default function Register({ registerModal, setRegisterModal, setLoginModa
                             </div>
                             <div className='relative'>
                                 <input
-                                    name="password"
+                                    name="confirmPassword"
                                     type={confirmVisible ? "text" : "password"}
                                     className="placeholder:text-gray-200 flex w-full mt-2 text-gray-300 font-normal text-base leading-[20px] p-[13px] border-[1.5px] border-gray-100 rounded-[50px] focus:outline-none"
                                     placeholder="Re-enter password"
+                                    onChange={(e) => {
+                                        handleChange(e);
+                                    }}
                                 />
                                 <img src={confirmVisible ? hiddeneye : eye} onClick={toggleConfirmVisibility} alt='img' className={`absolute pointer right-[13px] ${confirmVisible ? 'top-[16px]' : 'top-[18px]'}`} />
                             </div>
@@ -135,6 +226,9 @@ export default function Register({ registerModal, setRegisterModal, setLoginModa
                         <button
                             type="button"
                             className="rounded-full w-full flex justify-center items-center gap-4 font-[oswald] uppercase bg-gray-200 sm:p-[18px] p-3 text-[22px] font-bold text-white leading-[32px] tracking-[0.02em]"
+                            onClick={() => {
+                                handleSignup();
+                            }}
                         >
                             sign up
                         </button>

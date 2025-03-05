@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import saleImage from '../../src/assets/images/saleImage.svg';
@@ -16,16 +16,22 @@ import ProductCard from '../components/home/ProductCard';
 import DetailSection from '../components/home/DetailSection';
 import Benefit from '../components/home/Benefit';
 import Testimonial from '../components/home/Testimonial';
+import { useDispatch, useSelector } from 'react-redux';
+import { getBanner } from '../store/ApiSlice/bannerSlice';
+import { useNavigate } from 'react-router';
+import { getCategory } from '../store/ApiSlice/categorySlice';
 
 export default function Home() {
+
     const settings = {
+        infinite: false,
         dots: true,
-        infinite: true,
-        speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
-        arrows: false,
+        autoplay: true,
+        autoplaySpeed: 3000,
     };
+
     const productSettings = {
         dots: true,
         infinite: true,
@@ -73,30 +79,29 @@ export default function Home() {
             },
         ],
     };
-
-
+    const { banner } = useSelector((state) => state.banner)
+    const { categoryList } = useSelector((state) => state.category)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    useEffect(() => {
+        dispatch(getBanner())
+        dispatch(getCategory())
+    }, [])
     return (
         <div className='bg-slate h-auto'>
             <Header />
             <div className='container mx-auto xl:px-0 px-[18px]'>
                 <Slider {...settings}>
-                    <div className="mx-auto">
-                        <img src={saleImage} className='h-full w-full' alt='img' />
-                    </div>
-                    <div className="mx-auto">
-                        <img src={saleImage} className='h-full w-full' alt='img' />
-                    </div>
-                    <div className="mx-auto">
-                        <img src={saleImage} className='h-full w-full' alt='img' />
-                    </div>
-                    <div className="mx-auto">
-                        <img src={saleImage} className='h-full w-full' alt='img' />
-                    </div>
-                    <div className="mx-auto">
-                        <img src={saleImage} className='h-full w-full' alt='img' />
-                    </div>
+                    {banner.map((item, index) => (
+                        <div key={index} className="mx-auto">
+                            {console.log(item, "item")}
+                            <img src={item.image} className='h-full w-full' alt='img' />
+                        </div>
+                    ))}
                 </Slider>
             </div>
+
+
             <div className='container mx-auto xl:px-0 px-[18px] sm:pt-28 pt-[70px]'>
                 <div className='sm:flex justify-between'>
                     <div className='sm:w-2/4 w-full'>
@@ -107,7 +112,10 @@ export default function Home() {
                         <div className='sm:justify-end justify-start flex w-full pt-5'>
                             <button
                                 type="button"
-                                className="rounded-full font-[oswald] uppercase bg-transparent px-[30px] sm:py-[15px] py-3 text-lg font-bold text-gray-300 border-[1.5px] border-gray-300 leading-[26px] tracking-[0.02em]"
+                                className="cursor-pointer rounded-full font-[oswald] uppercase bg-transparent px-[30px] sm:py-[15px] py-3 text-lg font-bold text-gray-300 border-[1.5px] border-gray-300 leading-[26px] tracking-[0.02em]"
+                                onClick={() => {
+                                    navigate("/product")
+                                }}
                             >
                                 All categories
                             </button>
@@ -119,10 +127,10 @@ export default function Home() {
                 <div className='xl:grid grid-cols-2 gap-5'>
                     <div className='md:flex gap-5 w-full'>
                         <div className="flex flex-col pt-5 text-base xs:text-3xl xl:text-xl font-bold tracking-wide leading-10 uppercase bg-white rounded-[25px] text-gray-300 justify-between w-full">
-                            <div className="self-start ml-5">women's </div>
+                            <div className="self-start ml-5">{categoryList?.[0]?.name} </div>
                             <img
                                 loading="lazy"
-                                src={women}
+                                src={categoryList?.[0]?.image}
                                 className="w-full rounded-[25px]"
                                 alt='img'
                             />
@@ -131,17 +139,17 @@ export default function Home() {
                             <div className="flex text-base xs:text-3xl xl:text-xl pr-5 font-bold tracking-wide leading-10 uppercase bg-white rounded-[25px] text-gray-300 items-end">
                                 <img
                                     loading="lazy"
-                                    src={watches}
+                                    src={categoryList?.[1]?.image}
                                     className="lg:w-full md:w-[59%] xxs:w-full xl:w-[68%] 2xl:w-[191px] w-[191px] rounded-[25px]"
                                     alt='img'
                                 />
-                                <div className='pb-5'>Watches</div>
+                                <div className='pb-5'>{categoryList?.[1]?.name}</div>
                             </div>
                             <div className="flex flex-col pt-5 text-base xs:text-3xl xl:text-xl font-bold tracking-wide leading-10 uppercase bg-white rounded-[25px] text-gray-300 justify-between h-full">
-                                <div className="self-start ml-5">footwear</div>
+                                <div className="self-start ml-5">{categoryList?.[2]?.name}</div>
                                 <img
                                     loading="lazy"
-                                    src={footwear}
+                                    src={categoryList?.[2]?.image}
                                     className="w-full rounded-[25px]"
                                     alt='img'
                                 />
@@ -150,20 +158,20 @@ export default function Home() {
                     </div>
                     <div className='md:flex gap-5 xl:mt-0 mt-5 w-full'>
                         <div className="flex flex-col pt-5 text-base xs:text-3xl xl:text-xl font-bold tracking-wide leading-10 uppercase bg-white rounded-[25px] text-gray-300 justify-between w-full">
-                            <div className="self-start ml-5">Man’s</div>
+                            <div className="self-start ml-5">{categoryList?.[3]?.name}</div>
                             <img
                                 loading="lazy"
-                                src={mens}
+                                src={categoryList?.[3]?.image}
                                 className="w-full rounded-[25px]"
                                 alt='img'
                             />
                         </div>
                         <div className='flex flex-col gap-y-5 md:mt-0 mt-5 w-full'>
                             <div className="flex text-base xs:text-3xl xl:text-xl font-bold tracking-wide leading-10 uppercase bg-white rounded-[25px] text-gray-300 justify-between">
-                                <div className='pt-5 pl-5'>bags</div>
+                                <div className='pt-5 pl-5'>{categoryList?.[5]?.name}</div>
                                 <img
                                     loading="lazy"
-                                    src={bags}
+                                    src={categoryList?.[5]?.image}
                                     className="sm:w-full w-[191px] rounded-[25px]"
                                     alt='img'
                                 />
@@ -171,11 +179,11 @@ export default function Home() {
                             <div className="flex text-base xs:text-3xl xl:text-xl pr-5 font-bold tracking-wide leading-10 uppercase bg-white rounded-[25px] text-gray-300 items-end">
                                 <img
                                     loading="lazy"
-                                    src={jewelry}
+                                    src={categoryList?.[4]?.image}
                                     className="w-full rounded-[25px]"
                                     alt='img'
                                 />
-                                <div className="pb-5">jewelry</div>
+                                <div className="pb-5">{categoryList?.[4]?.name}</div>
                             </div>
                         </div>
                     </div>
@@ -184,22 +192,23 @@ export default function Home() {
             <div className='container mx-auto xl:px-0 px-[18px] pb-[52px] lg:pt-[100px] sm:pt-[70px] pt-[30px]'>
                 <div className='sm:flex justify-between items-center'>
                     <div className='sm:w-2/4 w-full'>
-                        <h1 className='text-gray-300 font-[oswald] font-bold xl:text-[70px] lg:text-[50px] sm:text-[40px] text-[35px] xl:leading-[91px] lg:leading-[62px] sm:leading-[50px] leading-[45px] tracking-[0.01em] uppercase'>Most Selling products</h1>
+                        <h1 className='text-gray-300 font-[oswald] font-bold xl:text-[70px] lg:text-[50px] sm:text-[40px] text-[35px] xl:leading-[91px] lg:leading-[62px] sm:leading-[50px] leading-[45px] tracking-[0.01em] uppercase'>
+                            Most Selling products
+                        </h1>
                     </div>
                     <button
                         type="button"
                         className="rounded-full font-[oswald] sm:mt-0 mt-5 uppercase bg-transparent px-[30px] sm:py-[15px] py-3 text-lg font-bold text-gray-300 border-[1.5px] border-gray-300 leading-[26px] tracking-[0.02em]"
+                        onClick={() => {
+                            navigate("/product")
+                        }}
                     >
                         more products
                     </button>
                 </div>
                 <div className='sm:pt-[100px] pt-10'>
                     <div className='productSlide'>
-                        <Slider {...productSettings}>
-                            <ProductCard />
-                            <ProductCard />
-                            <ProductCard />
-                        </Slider>
+                        <ProductCard />
                     </div>
                 </div>
             </div>

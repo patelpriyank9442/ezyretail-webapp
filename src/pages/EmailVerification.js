@@ -2,12 +2,36 @@ import React, { useState } from 'react'
 import Modal from 'react-modal';
 import chevronLeft from '../../src/assets/images/chevronLeft.svg';
 import OtpInput from 'react-otp-input';
+import { verifyOtp } from '../store/ApiSlice/authSlice';
+import toast from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function EmailVerification({ verificationtModal, setVerificationModal, setResetPasswordModal, setForgotModal }) {
     const [otp, setOtp] = useState('');
+    const { user } = useSelector((state) => state.auth)
+    const dispatch = useDispatch()
     const handleChange = (enteredOtp) => {
         setOtp(enteredOtp);
     };
+
+    const handleSubmitOtp = () => {
+        const userData = {
+            email: user?.email,
+            otp: otp,
+        };
+        dispatch(verifyOtp(userData)).then((res) => {
+            console.log("resresres", res);
+
+            if (res.payload.success) {
+                toast.success("OTP send in your mail.")
+                // setVerificationModal(true);
+                setResetPasswordModal(true);
+                setVerificationModal(false)
+            } else {
+                toast.error(res?.payload.message)
+            }
+        });
+    }
     return (
         <>
             <Modal
@@ -47,7 +71,9 @@ export default function EmailVerification({ verificationtModal, setVerificationM
                         <button
                             type="button"
                             className="rounded-full w-full flex justify-center items-center gap-4 font-[oswald] uppercase bg-gray-200 sm:p-[18px] p-3 text-[22px] font-bold text-white leading-[32px] tracking-[0.02em]"
-                            onClick={() => { setResetPasswordModal(true); setVerificationModal(false) }}
+                            onClick={() => {
+                                handleSubmitOtp()
+                            }}
                         >
                             verify
                         </button>

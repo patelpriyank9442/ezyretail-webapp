@@ -4,7 +4,7 @@ import searchIcon from '../../../src/assets/images/searchIcon.svg';
 import cartIcon from '../../../src/assets/images/cartIcon.svg';
 import favouriteIcon from '../../../src/assets/images/favouriteIcon.svg';
 import walletIcon from '../../../src/assets/images/walletIcon.svg';
-import user from '../../../src/assets/images/user.svg';
+import userImage from '../../../src/assets/images/user.svg';
 import menuIcon from '../../../src/assets/images/menuIcon.svg';
 import closeIcon from '../../../src/assets/images/closeIcon.svg';
 import Login from '../../pages/Login';
@@ -13,8 +13,9 @@ import ForgotPassword from '../../pages/ForgotPassword';
 import EmailVerification from '../../pages/EmailVerification';
 import ResetPassword from '../../pages/ResetPassword';
 import chevronRight from '../../../src/assets/images/chevronRight.svg';
-import { useLocation } from 'react-router';
-import { Link } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router';
+import { Link, NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -26,6 +27,9 @@ export default function Header() {
     const [walletBalance, setWalletBalance] = useState(false);
     const [searchProduct, setSearchProduct] = useState(false);
     const location = useLocation();
+    const { user } = useSelector((state) => state.auth)
+    const navigate = useNavigate()
+    console.log("useruseruser", user);
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen)
@@ -46,7 +50,7 @@ export default function Header() {
         },
         {
             name: 'Discover',
-            href: '/discover',
+            href: '/product',
         },
         {
             name: 'About Us',
@@ -65,7 +69,7 @@ export default function Header() {
         },
         {
             name: 'Discover',
-            href: '/discover',
+            href: '/product',
         },
         {
             name: 'My Favorites',
@@ -110,7 +114,9 @@ export default function Header() {
                             <div className="sm:hidden sm:w-[42px] sm:h-[42px] w-[30px] h-[30px] sm:p-2.5 p-2 bg-white rounded-full flex items-center justify-center" onClick={toggleMenu}>
                                 <img src={menuIcon} alt='menuIcon' className="cursor-pointer text-white" />
                             </div>
-                            <img src={ezyRetailWhite} alt='logo' className='h-auto lg:w-[165px] xxs:w-[92px] w-[84px]' />
+                            <img src={ezyRetailWhite} alt='logo' className='h-auto lg:w-[165px] xxs:w-[92px] w-[84px] cursor-pointer' onClick={() => {
+                                navigate("/")
+                            }} />
                         </div>
                         <div className="hidden md:flex">
                             <ul className="inline-flex xl:space-x-[30px] space-x-5">
@@ -129,21 +135,21 @@ export default function Header() {
                         </div>
                         <div className='flex items-center xl:gap-[15px] xxs:gap-2 gap-1'>
                             <div onClick={searchMenu} className='lg:w-[42px] lg:h-[42px] w-[30px] h-[30px] lg:p-2.5 md:p-1.5 p-2 bg-white rounded-full flex items-center justify-center'>
-                                <img src={searchIcon} className='h-auto w-auto' alt='search' />
+                                <img src={searchIcon} className='h-auto w-auto cursor-pointer' alt='search' />
                             </div>
-                            <div className='lg:w-[42px] lg:h-[42px] w-[30px] h-[30px] lg:p-2.5 md:p-1.5 p-2 bg-white rounded-full flex items-center justify-center'>
-                                <img src={cartIcon} className='h-auto w-auto' alt='cart' />
-                            </div>
-                            <div className='lg:w-[42px] lg:h-[42px] w-[30px] h-[30px] lg:p-2.5 md:p-1.5 p-2 bg-white rounded-full lg:flex hidden items-center justify-center'>
-                                <img src={favouriteIcon} className='h-auto w-auto' alt='favouritr' />
-                            </div>
-                            <div onClick={balanceMenu} className='lg:w-auto lg:h-[42px] w-[30px] h-[30px] py-2.5 lg:pl-3 md:pl-1.5 pl-2 lg:pr-2 md:pr-1.5 pr-2 bg-white rounded-full flex items-center justify-center gap-2.5'>
-                                <img src={walletIcon} className='h-auto w-auto' alt='wallet' />
+                            <NavLink to={"/my-cart"} className='lg:w-[42px] lg:h-[42px] w-[30px] h-[30px] lg:p-2.5 md:p-1.5 p-2 bg-white rounded-full flex items-center justify-center'>
+                                <img src={cartIcon} className='h-auto w-auto cursor-pointer' alt='cart' />
+                            </NavLink>
+                            <NavLink to={"/favourite"} className='lg:w-[42px] lg:h-[42px] w-[30px] h-[30px] lg:p-2.5 md:p-1.5 p-2 bg-white rounded-full lg:flex hidden items-center justify-center'>
+                                <img src={favouriteIcon} className='h-auto w-auto cursor-pointer' alt='favouritr' />
+                            </NavLink>
+                            <div onClick={balanceMenu} className='lg:w-auto lg:h-[42px] w-[30px] h-[30px] py-2.5 lg:pl-3 md:pl-1.5 pl-2 lg:pr-2 md:pr-1.5 pr-2 bg-white rounded-full flex items-center justify-center gap-2.5 cursor-pointer'>
+                                <img src={walletIcon} className='h-auto w-auto cursor-pointer' alt='wallet' />
                                 <p className='text-gray-300 text-base leading-5 font-medium lg:flex hidden'>$90.49</p>
                             </div>
                             <button onClick={() => setLoginModal(true)} className='lg:w-auto w-[30px] sm:h-[42px] h-[30px] lg:py-1.5 lg:px-2 lg:bg-white rounded-full flex items-center justify-center gap-2'>
-                                <img src={user} alt='user' />
-                                <p className='text-gray-300 text-base leading-5 font-medium lg:flex hidden'>Chintan</p>
+                                <img src={userImage} alt='user' />
+                                <p className='text-gray-300 text-base leading-5 font-medium lg:flex hidden'>{user?.firstName}</p>
                             </button>
                         </div>
                     </div>
@@ -185,6 +191,7 @@ export default function Header() {
                         resetPasswordModal={resetPasswordModal}
                         setResetPasswordModal={setResetPasswordModal}
                         setVerificationModal={setVerificationModal}
+                        setLoginModal={setLoginModal}
                     />
                 )}
                 {isMenuOpen && (
@@ -252,7 +259,6 @@ export default function Header() {
                         </div>
                     </>
                 )}
-
                 {searchProduct && (
                     <>
                         <div className="fixed inset-0 z-40 bg-white opacity-[80%]"></div>
